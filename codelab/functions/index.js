@@ -27,16 +27,29 @@ exports.calculateCart = functions
         return;
       }
 
-      let totalPrice = 125.98;
-      let itemCount = 8;
+      let totalPrice = 0;
+      let itemCount = 0;
       try {
-
         const cartRef = db.collection("carts").doc(context.params.cartId);
+        const itemsSnap = await cartRef.collection("items").get();
+
+        itemsSnap.docs.forEach(item => {
+          const itemData = item.data();
+          if (itemData.price) {
+            // If not specified, the quantity is 1
+            const quantity = itemData.quantity ? itemData.quantity : 1;
+            itemCount += quantity;
+            totalPrice += (itemData.price * quantity);
+          }
+        });
 
         await cartRef.update({
           totalPrice,
           itemCount
         });
+
+        console.log("updated successfully!");
       } catch(err) {
+        console.warn("update error", err);
       }
     });
