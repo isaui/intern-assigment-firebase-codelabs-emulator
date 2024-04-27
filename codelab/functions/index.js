@@ -27,9 +27,10 @@ exports.calculateCart = functions
         return;
       }
 
-      let totalPrice = 0;
-      let itemCount = 0;
+
       try {
+        let totalPrice = 0;
+        let itemCount = 0;
         const cartRef = db.collection("carts").doc(context.params.cartId);
         const itemsSnap = await cartRef.collection("items").get();
 
@@ -41,14 +42,13 @@ exports.calculateCart = functions
             itemCount += quantity;
             totalPrice += (itemData.price * quantity);
           }
-        });
-
+        })
+       
         await cartRef.update({
           totalPrice,
           itemCount
         });
-
-        console.log("updated successfully!");
+        console.log("Cart total successfully recalculated: ", totalPrice);
       } catch(err) {
         console.warn("update error", err);
       }
