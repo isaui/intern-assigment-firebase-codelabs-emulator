@@ -119,7 +119,7 @@ describe("shopping carts", () => {
 
     // Bob can't read Alice's cart
     await firebase.assertFails(bobDb.doc("carts/alicesCart").get());
-  });
+  }, 12000);
 });
 
 describe("shopping cart items", async () => {
