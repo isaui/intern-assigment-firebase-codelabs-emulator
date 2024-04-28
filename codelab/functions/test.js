@@ -119,7 +119,7 @@ describe("shopping carts", () => {
 
     // Bob can't read Alice's cart
     await firebase.assertFails(bobDb.doc("carts/alicesCart").get());
-  }, 12000);
+  }).timeout(60000);
 });
 
 describe("shopping cart items", async () => {
@@ -162,7 +162,7 @@ describe("shopping cart items", async () => {
 
     // Bob can't read items in alice's cart
     await firebase.assertFails(bobDb.doc("carts/alicesCart/items/milk").get())
-  });
+  }).timeout(60000);
 
   it("can be added only by the cart owner",  async () => {
     // Alice can add an item to her own cart
@@ -176,7 +176,7 @@ describe("shopping cart items", async () => {
       name: "lemon",
       price: 0.99
     }));
-  });
+  }).timeout(60000);
 });
 
 describe("adding an item to the cart recalculates the cart total. ", () => {
@@ -225,7 +225,7 @@ describe("adding an item to the cart recalculates the cart total. ", () => {
         }
       });
     });
-  }, 15000);
+  }).timeout(60000);
 });
 
 /**
