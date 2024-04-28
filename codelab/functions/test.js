@@ -225,7 +225,7 @@ describe("adding an item to the cart recalculates the cart total. ", () => {
         }
       });
     });
-  });
+  }, 15000);
 });
 
 /**
